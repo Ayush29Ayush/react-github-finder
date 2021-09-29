@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './components/layouts/Navbar';
+import UserItem from './components/users/UserItem'
 import './App.css';
 
 class App extends Component {
@@ -9,11 +10,9 @@ class App extends Component {
 
     return (
       <div className="App">
-        {/* Down below we are using Props */}
-        {/* <Navbar title="Github Finder" icon="fab fa-github" /> */}
-        {/* <Navbar title="Hello Ayush"/> To overwrite the default props , give your own title. */}
-        {/* <Navbar title={numbers}/> compines but gives error because it expected string and we provided numbers in the form of array */}
+    
         <Navbar /> 
+        <UserItem />
       </div>
     );
   }
