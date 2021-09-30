@@ -19,7 +19,7 @@ class App extends Component {
 
 
     // console.log(123);
-    //! axios deals with promises so we can use .then
+    //! axios deals with promises so we can use .then and .catch
     const res = await axios
       .get("https://api.github.com/users")
       // .then((res) => console.log(res.data));
