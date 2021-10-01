@@ -7,25 +7,21 @@ import "./App.css";
 class App extends Component {
   state = {
     users: [],
-    loading: false
-  }
+    loading: false,
+  };
 
-
-
-  // Using Life cycle method , render is also a life cycle method. 
-  //! componentDidMount() is invoked immediately after a component is mounted (inserted into the tree).
   async componentDidMount() {
-    this.setState({ loading: true })
+    // console.log(process.env.REACT_APP_CLIENT_ID);
+    // console.log(process.env.REACT_APP_CLIENT_SECRET);
+    this.setState({ loading: true });
 
-
-    // console.log(123);
-    //! axios deals with promises so we can use .then and .catch
     const res = await axios
-      .get("https://api.github.com/users")
-      // .then((res) => console.log(res.data));
+      // .get("https://api.github.com/users")
+      .get(
+        `https://api.github.com/users?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}`
+      );
 
-      // console.log(res.data)
-      this.setState({ users: res.data, loading: false })
+    this.setState({ users: res.data, loading: false });
   }
 
   render() {
@@ -34,7 +30,7 @@ class App extends Component {
         <Navbar />
 
         <div className="container">
-          <Users loading={this.state.loading} users={this.state.users}/>
+          <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
     );
