@@ -1,26 +1,22 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types'
 
 export class Search extends Component {
   state = {
     text: "",
   };
 
-  //   onSubmit(e) {
-  //     e.preventDefault();
-  //     console.log(this.state.text)
-  //     // we will get error => "cannot read property 'state' of undefined" , to prevent the error do , onSubmit={this.onSubmit.bind(this) or else use arrow function
-  //   }
+  static propTypes = {
+    //! type "ptfr" for proptypes func required
+    searchUsers: PropTypes.func.isRequired,
+  }
+
   onSubmit = (e) => {
     e.preventDefault();
-    // here we dont get error because "this" works differently for arrow functions
-    console.log(this.state.text);
+    // console.log(this.state.text);
+    this.props.searchUsers(this.state.text);
+    this.setState({ text: '' })
   };
-
-  //   onChange = (e) => {
-  //       // here we are using key:value pair type method
-  //       //   this.setState({ text: e.target.value })
-  //       this.setState({ [e.target.name]: e.target.value })
-  //   }
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
