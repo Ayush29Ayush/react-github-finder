@@ -1,119 +1,127 @@
 //! https://api.github.com/users/Ayush29Ayush
 
-import React, { Fragment, Component } from "react";
+import React, { Fragment, useEffect } from "react";
 import Spinner from "../layouts/Spinner";
-import Repos from "../repos/Repos"
+import Repos from "../repos/Repos";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-export class User extends Component {
-  componentDidMount() {
-    this.props.getUser(this.props.match.params.login);
-    this.props.getUserRepos(this.props.match.params.login);
-  }
+// const User = (props) => {
+//! All the user props below are destructured down here along with other parameters
+const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
+  useEffect(() => {
+    //! this is making infinite requests and upfating in loop , to stop that add []
+    getUser(match.params.login);
+    getUserRepos(match.params.login);
+    // eslint-disable-next-line
+  }, []);
+  //! now the above code is mimicing the componentDidMount()
 
-  static propTypes = {
-    loading: PropTypes.bool,
-    user: PropTypes.object.isRequired,
-    repos: PropTypes.array.isRequired,
-    getUser: PropTypes.func.isRequired,
-    getUserRepos: PropTypes.func.isRequired,
-  };
+  // componentDidMount() {
+  //   // this.props.getUser(this.props.match.params.login);
+  //   this.props.getUser(match.params.login);
+  //   // this.props.getUserRepos(this.props.match.params.login);
+  //   this.props.getUserRepos(match.params.login);
+  // }
 
-  render() {
-    const {
-      name,
-      company,
-      avatar_url,
-      location,
-      bio,
-      blog,
-      login,
-      html_url,
-      followers,
-      following,
-      public_repos,
-      public_gists,
-      hireable,
-    } = this.props.user;
+  const {
+    name,
+    company,
+    avatar_url,
+    location,
+    bio,
+    blog,
+    login,
+    html_url,
+    followers,
+    following,
+    public_repos,
+    public_gists,
+    hireable,
+  } = user;
 
-    const { loading, repos } = this.props;
+  // const { loading, repos } = this.props;
 
-    if (loading) return <Spinner />;
+  if (loading) return <Spinner />;
 
-    // return <div>User</div>;
-    // return <Fragment>{name || login}</Fragment>;
-    return (
-      <Fragment>
-        <Link to="/" className="btn btn-light">
-          Back to Search
-        </Link>
-        Hireable:{" "}
-        {hireable ? (
-          <i className="fas fa-check text-success" />
-        ) : (
-          <i className="fas fa-times-circle text-danger" />
-        )}
-        <div className="card grid-2">
-          <div className="all-center">
-            <img
-              src={avatar_url}
-              className="round-img"
-              alt=""
-              style={{ width: "150px" }}
-            />
-            <h1>{name}</h1>
-            <p>Location: {location}</p>
-          </div>
-          <div>
-            {bio && (
-              <Fragment>
-                <h3>Bio</h3>
-                <p>{bio}</p>
-              </Fragment>
-            )}
-            <a href={html_url} className="btn btn-dark my-1">
-              Visit Github Profile
-            </a>
-            <ul>
-              <li>
-                {login && (
-                  <Fragment>
-                    <strong>Username: </strong> {login}
-                  </Fragment>
-                )}
-              </li>
-
-              <li>
-                {company && (
-                  <Fragment>
-                    <strong>Company: </strong> {login}
-                  </Fragment>
-                )}
-              </li>
-
-              <li>
-                {blog && (
-                  <Fragment>
-                    <strong>Website: </strong> {login}
-                  </Fragment>
-                )}
-              </li>
-            </ul>
-          </div>
+  // return <div>User</div>;
+  // return <Fragment>{name || login}</Fragment>;
+  return (
+    <Fragment>
+      <Link to="/" className="btn btn-light">
+        Back to Search
+      </Link>
+      Hireable:{" "}
+      {hireable ? (
+        <i className="fas fa-check text-success" />
+      ) : (
+        <i className="fas fa-times-circle text-danger" />
+      )}
+      <div className="card grid-2">
+        <div className="all-center">
+          <img
+            src={avatar_url}
+            className="round-img"
+            alt=""
+            style={{ width: "150px" }}
+          />
+          <h1>{name}</h1>
+          <p>Location: {location}</p>
         </div>
+        <div>
+          {bio && (
+            <Fragment>
+              <h3>Bio</h3>
+              <p>{bio}</p>
+            </Fragment>
+          )}
+          <a href={html_url} className="btn btn-dark my-1">
+            Visit Github Profile
+          </a>
+          <ul>
+            <li>
+              {login && (
+                <Fragment>
+                  <strong>Username: </strong> {login}
+                </Fragment>
+              )}
+            </li>
 
-        <div className="card text-center">
-          <div className="badge badge-primary">Followers: {followers}</div>
-          <div className="badge badge-success">Following: {following}</div>
-          <div className="badge badge-light">Public: {public_repos}</div>
-          <div className="badge badge-dark">Public Gists: {public_gists}</div>
+            <li>
+              {company && (
+                <Fragment>
+                  <strong>Company: </strong> {login}
+                </Fragment>
+              )}
+            </li>
+
+            <li>
+              {blog && (
+                <Fragment>
+                  <strong>Website: </strong> {login}
+                </Fragment>
+              )}
+            </li>
+          </ul>
         </div>
+      </div>
+      <div className="card text-center">
+        <div className="badge badge-primary">Followers: {followers}</div>
+        <div className="badge badge-success">Following: {following}</div>
+        <div className="badge badge-light">Public: {public_repos}</div>
+        <div className="badge badge-dark">Public Gists: {public_gists}</div>
+      </div>
+      <Repos repos={repos} />
+    </Fragment>
+  );
+};
 
-        <Repos repos={repos} />
-      </Fragment>
-    );
-  }
-}
+User.propTypes = {
+  loading: PropTypes.bool,
+  user: PropTypes.object.isRequired,
+  repos: PropTypes.array.isRequired,
+  getUser: PropTypes.func.isRequired,
+  getUserRepos: PropTypes.func.isRequired,
+};
 
 export default User;
