@@ -8,11 +8,11 @@ import Alert from "./components/layouts/Alert";
 import { About } from "./components/pages/About";
 
 import GithubState from "./context/github/GithubState";
+import AlertState from "./context/alert/AlertState";
 
 import "./App.css";
 
 const App = () => {
-  const [alert, setAlert] = useState(null);
 
   //! Search Github users
 
@@ -23,39 +23,35 @@ const App = () => {
   //! Clear users from state
 
   //! Set Alert
-  const showAlert = (msg, type) => {
-    setAlert({ msg, type });
-
-    //alert will be set to null after 5 seconds
-    setTimeout(() => setAlert(null), 5000);
-  };
 
   return (
     <GithubState>
       {/* //! Making a default home page/directory using router */}
-      <Router>
-        <div className="App">
-          <Navbar />
+      <AlertState>
+        <Router>
+          <div className="App">
+            <Navbar />
 
-          <div className="container">
-            <Alert alert={alert} />
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={(props) => (
-                  <Fragment>
-                    <Search setAlert={showAlert} />
-                    <Users />
-                  </Fragment>
-                )}
-              />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/user/:login" component={User} />
-            </Switch>
+            <div className="container">
+              <Alert />
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={(props) => (
+                    <Fragment>
+                      <Search />
+                      <Users />
+                    </Fragment>
+                  )}
+                />
+                <Route exact path="/about" component={About} />
+                <Route exact path="/user/:login" component={User} />
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </AlertState>
     </GithubState>
   );
 };
