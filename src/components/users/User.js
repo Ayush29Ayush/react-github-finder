@@ -1,28 +1,23 @@
 //! https://api.github.com/users/Ayush29Ayush
 
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import Spinner from "../layouts/Spinner";
 import Repos from "../repos/Repos";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import GithubContext from "../../context/github/githubContext";
 
-// const User = (props) => {
-//! All the user props below are destructured down here along with other parameters
-const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
+const User = ({ getUserRepos, repos, match }) => {
+  const githubContext = useContext(GithubContext);
+
+  const { getUser, loading, user } = githubContext;
+
   useEffect(() => {
     //! this is making infinite requests and upfating in loop , to stop that add []
     getUser(match.params.login);
     getUserRepos(match.params.login);
     // eslint-disable-next-line
   }, []);
-  //! now the above code is mimicing the componentDidMount()
-
-  // componentDidMount() {
-  //   // this.props.getUser(this.props.match.params.login);
-  //   this.props.getUser(match.params.login);
-  //   // this.props.getUserRepos(this.props.match.params.login);
-  //   this.props.getUserRepos(match.params.login);
-  // }
 
   const {
     name,
@@ -40,12 +35,9 @@ const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
     hireable,
   } = user;
 
-  // const { loading, repos } = this.props;
 
   if (loading) return <Spinner />;
 
-  // return <div>User</div>;
-  // return <Fragment>{name || login}</Fragment>;
   return (
     <Fragment>
       <Link to="/" className="btn btn-light">
@@ -117,10 +109,7 @@ const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
 };
 
 User.propTypes = {
-  loading: PropTypes.bool,
-  user: PropTypes.object.isRequired,
   repos: PropTypes.array.isRequired,
-  getUser: PropTypes.func.isRequired,
   getUserRepos: PropTypes.func.isRequired,
 };
 
