@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import GithubContext from "../../context/github/githubContext";
 
-// const Search = (props) => {
 const Search = ({ setAlert }) => {
   const githubContext = useContext(GithubContext);
 
@@ -20,7 +19,6 @@ const Search = ({ setAlert }) => {
     }
   };
 
-  // const onChange = (e) => this.setState({ [e.target.name]: e.target.value });
   const onChange = (e) => setText(e.target.value);
 
   return (
@@ -30,10 +28,7 @@ const Search = ({ setAlert }) => {
           type="text"
           name="text"
           placeholder="Search Users..."
-          // value={this.state.text}
           value={text}
-          // without onChange , we cannot give input
-          // onChange={this.onChange}
           onChange={onChange}
         />
         <input
@@ -56,9 +51,6 @@ const Search = ({ setAlert }) => {
 
 Search.propTypes = {
   //! type "ptfr" for proptypes func required
-  // searchUsers: PropTypes.func.isRequired,
-  // clearUsers: PropTypes.func.isRequired,
-  // showClear: PropTypes.bool.isRequired,
   setAlert: PropTypes.func.isRequired,
 };
 

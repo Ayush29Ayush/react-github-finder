@@ -13,7 +13,6 @@ const Users = () => {
   } else {
     return (
       <div style={userStyle}>
-        {/* {this.props.users.map((user) => ( */}
         {users.map((user) => (
           <UserItem key={user.id} user={user} />
         ))}
@@ -21,11 +20,6 @@ const Users = () => {
     );
   }
 };
-
-// Users.propTypes = {
-//   users: PropTypes.array.isRequired,
-//   loading: PropTypes.bool.isRequired,
-// };
 
 const userStyle = {
   display: "grid",
